@@ -6,18 +6,19 @@ import favicon from 'serve-favicon';
 import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
+import passport from 'passport';
+import session from 'express-session';
 import './modules/ngJSON';
-import * as connector from './connector/connector';
+import mongoose from 'mongoose';
+import db from './config/db';
+import './config/passportjs';
+
 import mongoRoutes from './routes/mongoRoutes';
+import users from './routes/users';
+import auths from './routes/auths';
 
 const app = express();
 
-
-
-connector.getdb('benseed')
-    .then(dbin => {
-     console.log('connected');
-    });
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -30,12 +31,22 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.use(session({
+resave: false,
+  saveUninitialized: false,
+    secret: 'benplayedthehorn'
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 // for serving the angular application statically
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.static(path.join(__dirname, '../public/app')));
 
-
+app.use('/api', auths);
 app.use('/api/mongo', mongoRoutes);
+app.use('/api/users', users);
 
 // Catch all for sending angular application to handle refreshes doing html5 mode
 app.get('/*', (req, res) => {
