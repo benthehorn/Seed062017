@@ -3,6 +3,9 @@
 import mongoose from 'mongoose';
 import Promise from 'promise';
 let dbURI = 'mongodb://localhost:27017/benseed';
+if (process.env.NODE_ENV === 'test') {
+  dbURI = 'mongodb://localhost:27017/benseedTest';
+}
 mongoose.Promise = global.Promise;
 mongoose.connect(dbURI);
 

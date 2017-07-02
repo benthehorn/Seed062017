@@ -1,0 +1,30 @@
+language: node_js
+
+node_js:
+  - "node"
+
+dist: trusty
+
+cache:
+  directories:
+    - node_modules
+    - public/bower_components
+services:
+  - mongodb
+
+before_install:
+  - npm install -g npm@3.9.3
+  - npm install -g gulp
+  - npm install -g bower
+
+install:
+  - npm install
+
+script:
+  - npm test
+
+after_success:
+   - gulp test:codecov
+
+env:
+- NODE_ENV=test
