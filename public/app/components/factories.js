@@ -25,12 +25,17 @@
       return $http.post('/api/users', user);
     }
 
+    function createAdmin(user) {
+      return $http.post('/api/admin', user);
+    }
+
     return {
       getBooksByCity: getBooksByCity,
       getCitiesByBook: getCitiesByBook,
       getBooksByAuthor: getBooksByAuthor,
       getBooksCloseTo: getBooksCloseTo,
-      createUser: createUser
+      createUser: createUser,
+      createAdmin: createAdmin
     };
   });
 

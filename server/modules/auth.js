@@ -7,5 +7,12 @@ export default {
     }else {
       next();
     }
+  },
+  isAdmin: (req, res, next) => {
+    if(req.user.role != 'admin') {
+      res.status(403).end('Forbidden');
+    } else {
+      next();
+    }
   }
 };

@@ -16,6 +16,7 @@ import './config/passportjs';
 import mongoRoutes from './routes/mongoRoutes';
 import users from './routes/users';
 import auths from './routes/auths';
+import admin from './routes/admin';
 
 const app = express();
 
@@ -47,6 +48,7 @@ app.use(express.static(path.join(__dirname, '../public/app')));
 app.use('/api', auths);
 app.use('/api/mongo', mongoRoutes);
 app.use('/api/users', users);
+app.use('/api/admin', admin);
 
 // Catch all for sending angular application to handle refreshes doing html5 mode
 app.get('/*', (req, res) => {
